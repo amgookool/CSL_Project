@@ -22,7 +22,7 @@ patients = sql.Table(table_names[0], metadata,
 # Creating a new table object which consists of all the identification forms of a patient
 ids = sql.Table(table_names[1], metadata,
                 sql.Column('id_number', sql.Integer, primary_key=True),
-                sql.Column('tablePatient_id', sql.Integer,sql.ForeignKey("Patient_table.patientID")),
+                sql.Column('Patient_id', sql.Integer,sql.ForeignKey("{}.patientID".format(table_names[0]))),
                 sql.Column('driver_permit', sql.String, nullable=True),
                 sql.Column('national_id', sql.String, nullable=True),
                 sql.Column('passport_number', sql.String, nullable=True),)
@@ -30,7 +30,7 @@ ids = sql.Table(table_names[1], metadata,
 # Creating a new table object which consists of the medical history of a patient and their medication dosage and frequency
 medHistory = sql.Table(table_names[2], metadata,
                        sql.Column('medRecord_id', sql.Integer, primary_key=True),
-                       sql.Column('tablePatient_id', sql.Integer,sql.ForeignKey("Patient_table.patientID")),
+                       sql.Column('Patient_id', sql.Integer,sql.ForeignKey("{}.patientID".format(table_names[0]))),
                        sql.Column('medical_history', sql.String, nullable=False),
                        sql.Column('dosage', sql.String, nullable=False),
                        sql.Column('frequency', sql.Integer, nullable=False),)
