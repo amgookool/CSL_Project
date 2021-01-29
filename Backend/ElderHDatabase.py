@@ -94,7 +94,7 @@ def insert_record(table_name, patient_record):
                 {"Driver_Permit": a, "National_ID": b, "Passport_Number": c})
             connection.execute(insert_query)
 
-    elif table_name == table_name[2]:  # Medical History Table
+    elif table_name ==table_names[2]:  # Medical History Table
         insert_query = table_medicalHistory.insert()
         for (a, b, c) in patient_record:
             insert_query = insert_query.values(
