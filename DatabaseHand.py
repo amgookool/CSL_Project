@@ -32,7 +32,9 @@ list_days=[]
 for days in dosage:
     list_days.append(str(days))
 dosage = list_days
-print(dosage)
+for patients in patient_data:
+    print(patients)
+
 med_hist_data = zip_longest(medhist, dosage, frequency)
 
 insert_record(table_names[0],patient_data)
