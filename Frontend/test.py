@@ -109,6 +109,14 @@ class Page4(Page):
        #label.pack(side="top", fill="both", expand=True)
        buttonframe = tk.Frame(self)
        buttonframe.pack(side="top", fill="x",  expand=False)
+       buttonframe2 = tk.Frame(self)
+       buttonframe2.pack(side="top", fill="x",  expand=False)
+       buttonframe3 = tk.Frame(self)
+       buttonframe3.pack(side="top", fill="x",  expand=False)
+       buttonframe4 = tk.Frame(self)
+       buttonframe4.pack(side="top", fill="x",  expand=False)
+       buttonframe5 = tk.Frame(self)
+       buttonframe5.pack(side="top", fill="x",  expand=False)
        buttonframe1 = tk.Frame(self)
        buttonframe1.pack(side="bottom", fill="x", expand=False)
         #string variables 
@@ -118,23 +126,35 @@ class Page4(Page):
        x3 = StringVar()
        x4 = StringVar()
        x5 = StringVar()
+       x6 = StringVar()
+       x7 = StringVar()
+       x8 = StringVar()
+       x9 = StringVar()
+       x10 = StringVar()
+       x11 = StringVar()
        def repord(lable,x1,x2,x3,x4):
            Name = (x1.get())
            Age  = (x2.get())
            Sex  = (x3.get())
            Date = (x4.get())
            Time = (x5.get())
+           Religion = (x6.get())
+           Allergies = (x7.get())
+           Diagnosis = (x8.get())
+           Intravenous_Therapy = (x9.get())
+           Injections = (x10.get())
+           Insulin = (x11.get())
            return
 
 
-        #SEARCH BAR1
+       #SEARCH BAR1
        l1 = Label( buttonframe,text='Name:')
        l1.pack(side="left", pady=10, padx=10)
        e1 = Entry( buttonframe,textvariable=x1)
        e1.pack(side="left", pady=10, padx=10)
 
         #SEARCH BAR2
-       l2 = Label( buttonframe,text='Age:')
+       l2 = Label( buttonframe,text='Date of birth:')
        l2.pack(side="left", pady=10, padx=10)
        e2 = Entry( buttonframe,textvariable=x2)
        e2.pack(side="left", pady=10, padx=10)
@@ -146,22 +166,63 @@ class Page4(Page):
        e3.pack(side="left", pady=10, padx=10)
 
        #SEARCH BAR4
-       l4 = Label( buttonframe,text='Date:')
+       l4 = Label( buttonframe,text='driver permit no:')
        l4.pack(side="left", pady=40, padx=10)
        e4 = Entry( buttonframe,textvariable=x4)
        e4.pack(side="left", pady=10, padx=10)
 
         #SEARCH BAR5
-       l5 = Label( buttonframe,text='Time:')
+       l5 = Label( buttonframe,text='National id no:')
        l5.pack(side="left", pady=40, padx=10)
        e5 = Entry( buttonframe,textvariable=x5)
        e5.pack(side="left", pady=10, padx=10)
 
+        #SEARCH BAR6
+       l6 = Label( buttonframe2,text='Next of Kin:')
+       l6.pack(side="left", pady=40, padx=10)
+       e6 = Entry( buttonframe2,textvariable=x6)
+       e6.pack(side="left", pady=10, padx=10)
+
+         #SEARCH BAR7
+       l7 = Label( buttonframe3,text='Allergies:')
+       l7.pack(side="left", pady=40, padx=10)
+       e7 = Entry( buttonframe3,textvariable=x7)
+       e7.pack(side="left", pady=10, padx=10,fill="x", expand=True)
+
+         #SEARCH BAR8
+       l8 = Label( buttonframe4,text='Diagnosis:')
+       l8.pack(side="left", pady=40, padx=10)
+       e8 = Entry( buttonframe4,textvariable=x8)
+       e8.pack(side="left", pady=10, padx=10, fill="x", expand=True )
+
+         #SEARCH BAR9
+       l9 = Label( buttonframe2,text='Intravenous Therapy:')
+       l9.pack(side="left", pady=40, padx=10)
+       e9 = Entry( buttonframe2,textvariable=x9)
+       e9.pack(side="left", pady=10, padx=10)
+
+         #SEARCH BAR10
+       l10 = Label( buttonframe5,text='Injections:')
+       l10.pack(side="left", pady=40, padx=10)
+       e10 = Entry( buttonframe5,textvariable=x10)
+       e10.pack(side="left", pady=10, padx=10, fill="x", expand=True)
+
+         #SEARCH BAR11
+       l11 = Label( buttonframe2,text='Insulin:')
+       l11.pack(side="left", pady=40, padx=10)
+       e11 = Entry( buttonframe2,textvariable=x11)
+       e11.pack(side="left", pady=10, padx=10)
+
+
+
        lable = Label( buttonframe)
        lable.pack(side="left", pady=10, padx=10)
 
-       b = Button( buttonframe1, text='Complete')  
+       b = Button( buttonframe1, text='ADD')  
        b.pack(side="bottom")
+
+       
+
 
 #EDIT rECORDS PAGE 
 class Page5(Page):
@@ -201,7 +262,6 @@ class Page7(Page):
        e2.pack()
        lable = Label( buttonframe)
        lable.pack()
-
 
 
 
@@ -251,16 +311,13 @@ class MainView(tk.Frame):
         b1.pack(side="right",padx=10)
         p1.show()
 
+
 if __name__ == "__main__":
     root = tk.Tk()
     main = MainView(root)
     main.pack(side="top", fill="both", expand=True)
     root.wm_geometry("1280x720")
     root.title('MCSC')
-    #home = Page1(root)
-    #canvas = Canvas(home, width =1920, height=300)
-    #canvas.pack(  side="top", fill="both", expand=True)
-    #my_image= PhotoImage(file='C:\\Users\\Joshua.M.Rampersad\\Desktop\\elec\\ECNG 2005\\Project csl\\test interentcode\\3.png')
-    # image = image.my_resize(450, 350)
-    # canvas.create_image(0,0, anchor=NW,image= my_image) 
     root.mainloop()  
+
+Data= zip_longest(x1,x2,x3,x4,x5)
