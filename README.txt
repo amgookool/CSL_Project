@@ -7,3 +7,4 @@ Michael Andalcio
 
 
 Frontend Developers
+Joushua Rampersad
