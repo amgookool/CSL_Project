@@ -19,20 +19,22 @@ titles = [
 ]
 
 
-class search_bar_widget:
+class search_bar_widget: #Creating the search bar widget which is a frame that hold a label and entry tkinter class
+    #initializing includes passing the frame as well as the sizing for the label and entry classes that are within the frame
     def __init__(self,frame=type(tk.Frame),bar_name=type(str),lbl_side=type(str),lbl_padx=type(int),lbl_pady=type(int),entr_side=type(str),entr_padx=type(int),entr_pady=type(int)):
-        search_box_frame = tk.Frame(frame)
-        search_box_frame.pack()
-        label = tk.Label(master=frame, text=bar_name)
-        entry = tk.Entry(master=frame)
-        label.pack(side=lbl_side, padx=lbl_padx, pady=lbl_pady)
-        entry.pack(side=entr_side, padx=entr_padx,pady=entr_pady)
+        search_box_frame = tk.Frame(frame) #initalizing the search_box_frame that will be part of the parent frame
+        search_box_frame.pack()#packing the search box in the frame that was passed  
+        label = tk.Label(master=frame, text=bar_name) #adding a label to the search bar using the title passed as input for text
+        entry = tk.Entry(master=frame) #adding an entry to the search bar using the title passed as input for text
+        label.pack(side=lbl_side, padx=lbl_padx, pady=lbl_pady) #packing the label into the parent frame
+        entry.pack(side=entr_side, padx=entr_padx,pady=entr_pady) #packing the entry field into the parent frame
           
 
-class search_bar_frame:
-    def __init__(self, window_name):
-        frame = tk.Frame(window_name)
-        frame.pack()
+class search_bar_frame: # this frame holds all the search bar widget frames that we want to create
+    def __init__(self, window_name): #initialize the class and we want to pass the window/frame that we are loading the search bar frame to
+        frame = tk.Frame(window_name) #creating the frame that hold the entries
+        frame.pack() #packing the frame on the application
+        #the following are the data labels and their fields 
         self.first_name = search_bar_widget(frame,titles[0],"left",10,10,"left",10,10)
         self.last_name = search_bar_widget(frame,titles[1],"left",10,10,"left",10,10)
         self.dob = search_bar_widget(frame,titles[2],"left",10,10,"left",10,10)
