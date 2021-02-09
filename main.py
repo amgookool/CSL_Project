@@ -1,7 +1,6 @@
-# This python module will be the middle man between the frontend and backsend of the app
 import tkinter as tk
 
-from Frontend.window_setup import *
+from Frontend.Framework import *
 
 root_view = tk.Tk()
 
