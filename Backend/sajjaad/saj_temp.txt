@@ -1,0 +1,31 @@
+if expression1:
+   statement(s)
+elif expression2:
+   statement(s)
+elif expression3:
+   statement(s)
+else:
+   statement(s)
+
+making mini functions for all:
+    #possible values for columnName:
+        #in table_patients:
+            #PatientID
+            #First_Name
+            #Last_Name
+            #Date_of_Birth
+            #Gender
+            #Marital_Status
+            #NextKin
+        #in table_identification:
+            #ID_Number
+            #Patient_ID
+            #Driver_Permit
+            #National_ID
+            #Passport_Number
+        #in table_medicalHistory:
+            #Record_ID
+            #Patient_ID
+            done->#Medical_History
+            #Dosage
+            #Frequency
