@@ -35,7 +35,7 @@ class search_bar_frame: # this frame holds all the search bar widget frames that
         frame = tk.Frame(window_name) #creating the frame that hold the entries
         frame.pack() #packing the frame on the application
         #the following are the data labels and their fields 
-        self.first_name = search_bar_widget(frame,titles[0],"left",10,10,"left",10,10)
+        self.first_name = search_bar_widget(frame,titles[0],"left",13,10,"left",10,10)
         self.last_name = search_bar_widget(frame,titles[1],"left",10,10,"left",10,10)
         self.dob = search_bar_widget(frame,titles[2],"left",10,10,"left",10,10)
         self.sex = search_bar_widget(frame,titles[3],"left",10,10,"left",10,10)

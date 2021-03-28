@@ -1,13 +1,16 @@
 # This module  is the initial setup of our database and tables and contains functions that allow us to C.R.U.D.
-
+from Data_Records.data import home_arrival, medical_history, patient_data
 # this module allows us to zip lists of data as tuples to iterate over(helps in manipulating data)
 from itertools import zip_longest
 import sqlalchemy as sql  # importing sqlalchemy interpreter
 
+
+print(home_arrival[0])
+'''
 # Create a list of table names that are in the database
-table_names = ["Patient_table",
-               "Identifications_table",
-               "Medical_History_table"]
+table_names = ["Patient_Data",
+               "Medical_History",
+               "Home_Arrival"]
 
 # Creating the engine that holds the connection to the database
 engine = sql.create_engine("sqlite:///Backend/elder_database.db", echo=True)
@@ -109,3 +112,4 @@ def insert_record(table_name, patient_record):
 # Defining a function that allows us to update a record field in the datbase using a query
 
 # Defining a function that allows us to deleting a record in the datbase using a query
+'''

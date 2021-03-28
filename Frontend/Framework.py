@@ -28,7 +28,7 @@ class MainWindow: #Creating the window class which contains all of our frames(Fr
         self.record_page.pack()#packing the home page into the Navigation bar
         
         self.notify_page = NotifyPage(self.nav_bar)
-        self.home_page.config(width=1920, height=1080) # setting the size of the notifications page on the window
+        self.notify_page.config(width=1920, height=1080) # setting the size of the notifications page on the window
         self.notify_page.pack()#packing the home page into the Navigation bar
         
         
