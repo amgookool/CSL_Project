@@ -1,5 +1,4 @@
-from ElderHDatabase import sajDiseaseSearch
-from ElderHDatabase import anySearch
+from ElderHDatabase import searchPatients
 
 #changed line 13 in ElderHDatabase to:
 #engine = sql.create_engine("sqlite:///Backend/elder_database.db")#, echo=True) 
@@ -8,4 +7,4 @@ from ElderHDatabase import anySearch
 print("=======================")
 #text="Arthritis"
 #sajDiseaseSearch("Arthritis")#works!
-anySearch()
+searchPatients('','','','','Male')

@@ -1,31 +1,70 @@
-if expression1:
-   statement(s)
-elif expression2:
-   statement(s)
-elif expression3:
-   statement(s)
-else:
-   statement(s)
+# This module  is the initial setup of our database and tables and contains functions that allow us to C.R.U.D.
 
-making mini functions for all:
-    #possible values for columnName:
-        #in table_patients:
-            #PatientID
-            #First_Name
-            #Last_Name
-            #Date_of_Birth
-            #Gender
-            #Marital_Status
-            #NextKin
-        #in table_identification:
-            #ID_Number
-            #Patient_ID
-            #Driver_Permit
-            #National_ID
-            #Passport_Number
-        #in table_medicalHistory:
-            #Record_ID
-            #Patient_ID
-            done->#Medical_History
-            #Dosage
-            #Frequency
+# this module allows us to zip lists of data as tuples to iterate over(helps in manipulating data)
+from itertools import zip_longest
+import sqlalchemy as sql  # importing sqlalchemy interpreter
+
+# Create a list of table names that are in the database
+table_names = ["Patient_table",
+               "Identifications_table",
+               "Medical_History_table"]
+
+# Creating the engine that holds the connection to the database
+engine = sql.create_engine("sqlite:///Backend/elder_database.db")#, echo=True) 
+# Creating the connection to the database in the engine
+connection = engine.connect()
+# metadata holds all the data to send/retreive to/from the database
+metadata = sql.MetaData()
+
+
+# Creating the Patient(Elder) Table object
+def Patient_Table(table_name, engine, metadata):
+    patients = sql.Table(
+        table_name, metadata,
+        sql.Column("PatientID", sql.Integer, primary_key=True),
+        sql.Column("First_Name", sql.TEXT, nullable=False),
+        sql.Column("Last_Name", sql.TEXT, nullable=False),
+        sql.Column("Date_of_Birth", sql.TEXT, nullable=False),
+        sql.Column("Gender", sql.Text, nullable=False),
+        sql.Column("Marital_Status", sql.Text, nullable=True),
+        sql.Column("NextKin", sql.TEXT, nullable=True),
+    )
+    metadata.create_all(engine)
+    return patients
+
+
+# Creating a new table object which consists of all the identification forms of a patient
+def Identification_Table(table_name, engine, metadata):
+    ids = sql.Table(
+        table_name,
+        metadata,
+        sql.Column("ID_Number", sql.Integer, primary_key=True),
+        sql.Column("Patient_ID", sql.ForeignKey(
+            "{}.PatientID".format(table_names[0])),),
+        sql.Column("Driver_Permit", sql.TEXT, nullable=True),
+        sql.Column("National_ID", sql.TEXT, nullable=True),
+        sql.Column("Passport_Number", sql.TEXT, nullable=True),
+    )
+    metadata.create_all(engine)
+    return ids
+
+
+# Creating a new table object which consists of the medical history of a patient and their medication dosage and frequency
+def Medical_history_Table(table_name, engine, metadata):
+    medHistory = sql.Table(
+        table_name,
+        metadata,
+        sql.Column("Record_ID", sql.Integer, primary_key=True),
+        sql.Column("Patient_ID", sql.ForeignKey(
+            "{}.PatientID".format(table_names[0])),),
+        sql.Column("Medical_History", sql.TEXT, nullable=False),
+        sql.Column("Dosage", sql.TEXT, nullable=False),
+        sql.Column("Frequency", sql.Integer, nullable=False),
+    )
+    metadata.create_all(engine)
+    return medHistory
+
+
+table_patients = Patient_Table(table_names[0], engine, metadata)
+table_identification = Identification_Table(table_names[1], engine, metadata)
+table_medicalHistory = Medical_history_Table(table_names[2], engine, metadata)

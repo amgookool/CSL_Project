@@ -105,104 +105,66 @@ def insert_record(table_name, patient_record):
 
 # Defining a function that takes a query and returns information based on the query Read Functionality
 
-# By Sajjaad
+
+# By Sajjaad Ramdath:
 # Start of Saj code.
-def sajDiseaseSearch(text):
-    #first prototype search function.
-    select=sql.select([table_medicalHistory]).where(table_medicalHistory.columns.Medical_History==text)
-    selectResult = connection.execute(select)
-    print(selectResult.fetchall())
+def searchPatients(patientid='',firstname='',lastname='',dateofbirth='',gender='',maritalstatus='',nextkin=''):
+    engine=sql.create_engine('sqlite:///Backend/elder_database.db')
+    connection=engine.connect()
+    metadata=sql.MetaData()
+    users=sql.Table('Patient_table', metadata, autoload=True, autoload_with=engine)
+    select=sql.select([table_patients]).where(sql.or_(
+        table_patients.columns.PatientID==patientid,
+        table_patients.columns.First_Name==firstname,
+        table_patients.columns.Last_Name==lastname,
+        table_patients.columns.Date_of_Birth==dateofbirth,
+        table_patients.columns.Gender==gender,
+        table_patients.columns.Marital_Status==maritalstatus,
+        table_patients.columns.NextKin==nextkin,
+        ))
+    result_proxy = connection.execute(select)
+    result_set=result_proxy.fetchall()
+    print(result_set)
+    return
+'''
+def searchPatients(patientid='',firstname='',lastname='',dateofbirth='',gender='',maritalstatus='',nextkin=''):
+    engine=sql.create_engine('sqlite:///Backend/elder_database.db')
+    connection=engine.connect()
+    metadata=sql.MetaData()
+    users=sql.Table('Patient_table', metadata, autoload=True, autoload_with=engine)
+    select=sql.select([table_patients]).where(sql.or_(
+        table_patients.columns.PatientID==patientid,
+        table_patients.columns.First_Name==firstname,
+        table_patients.columns.Last_Name==lastname,
+        table_patients.columns.Date_of_Birth==dateofbirth,
+        table_patients.columns.Gender==gender,
+        table_patients.columns.Marital_Status==maritalstatus,
+        table_patients.columns.NextKin==nextkin,
+        ))
+    result_proxy = connection.execute(select)
+    result_set=result_proxy.fetchall()
+    print(result_set)
     return
 
-# Mini functions:
-#def patientSearch(columnName,searchQuery):
-    #=========================================================================
-    #possible values for columnName:
-        #PatientID
-        #First_Name
-        #Last_Name
-        #Date_of_Birth
-        #Gender
-        #Marital_Status
-        #NextKin
-    #=========================================================================
-    tableObjName=table_patients
-    select=sql.select([tableObjName]).where(tableObjName.columns.columnName==searchQuery)
-    selectResult = connection.execute(select)
-    print(selectResult.fetchall())
+def searchPatients(patientid='',firstname='',lastname='',dateofbirth='',gender='',maritalstatus='',nextkin=''):
+    engine=sql.create_engine('sqlite:///Backend/elder_database.db')
+    connection=engine.connect()
+    metadata=sql.MetaData()
+    users=sql.Table('Patient_table', metadata, autoload=True, autoload_with=engine)
+    select=sql.select([table_patients]).where(sql.or_(
+        table_patients.columns.PatientID==patientid,
+        table_patients.columns.First_Name==firstname,
+        table_patients.columns.Last_Name==lastname,
+        table_patients.columns.Date_of_Birth==dateofbirth,
+        table_patients.columns.Gender==gender,
+        table_patients.columns.Marital_Status==maritalstatus,
+        table_patients.columns.NextKin==nextkin,
+        ))
+    result_proxy = connection.execute(select)
+    result_set=result_proxy.fetchall()
+    print(result_set)
     return
-#def identificationSearch(columnName,searchQuery):
-    #=========================================================================
-    #possible values for columnName:
-        #ID_Number
-        #Patient_ID
-        #Driver_Permit
-        #National_ID
-        #Passport_Number
-    #=========================================================================
-    tableObjName=table_identification
-    select=sql.select([tableObjName]).where(tableObjName.columns.columnName==searchQuery)
-    selectResult = connection.execute(select)
-    print(selectResult.fetchall())
-    return
-#def medicalHistorySearch(columnName,searchQuery):
-    #=========================================================================
-    #possible values for columnName:
-        #Record_ID
-        #Patient_ID
-        #Medical_History
-        #Dosage
-        #Frequency
-    #=========================================================================
-    tableObjName=table_medicalHistory
-    select=sql.select([tableObjName]).where(tableObjName.columns.columnName==searchQuery)
-    selectResult = connection.execute(select)
-    print(selectResult.fetchall())
-    return
-
-def anySearch(tableObjName,columnName,searchQuery):
-    if (tableObjName=="table_patients"):
-        if (columnName=="PatientID"):
-            select=sql.select([table_patients]).where(table_patients.columns.PatientID==searchQuery)
-        elif (columnName=="First_Name"):
-            select=sql.select([table_patients]).where(table_patients.columns.First_Name==searchQuery)
-        elif (columnName=="Date_of_Birth"):
-            select=sql.select([table_patients]).where(table_patients.columns.Date_of_Birth==searchQuery)
-        elif (columnName=="Gender"):
-            select=sql.select([table_patients]).where(table_patients.columns.Gender==searchQuery)
-        elif (columnName=="Marital_Status"):
-            select=sql.select([table_patients]).where(table_patients.columns.Marital_Status==searchQuery)
-        elif (columnName=="NextKin"):
-            select=sql.select([table_patients]).where(table_patients.columns.NextKin==searchQuery)
-
-    elif (tableObjName=="table_identification"):
-        if (columnName=="ID_Number"):
-            select=sql.select([table_identification]).where(table_patients.columns.ID_Number==searchQuery)
-        elif (columnName=="Patient_ID"):
-            select=sql.select([table_identification]).where(table_patients.columns.Patient_ID==searchQuery)
-        elif (columnName=="Driver_Permit"):
-            select=sql.select([table_identification]).where(table_patients.columns.Driver_Permit==searchQuery)
-        elif (columnName=="National_ID"):
-            select=sql.select([table_identification]).where(table_patients.columns.National_ID==searchQuery)
-        elif (columnName=="Passport_Number"):
-            select=sql.select([table_identification]).where(table_patients.columns.Passport_Number==searchQuery)
-
-    elif (tableObjName=="table_medicalHistory"):
-        if (columnName=="Record_ID"):
-            select=sql.select([table_medicalHistory]).where(table_patients.columns.Record_ID==searchQuery)
-        elif (columnName=="Patient_ID"):
-            select=sql.select([table_medicalHistory]).where(table_patients.columns.Patient_ID==searchQuery)
-        elif (columnName=="Medical_History"):
-            select=sql.select([table_medicalHistory]).where(table_patients.columns.Medical_History==searchQuery)
-        elif (columnName=="Dosage"):
-            select=sql.select([table_medicalHistory]).where(table_patients.columns.Dosage==searchQuery)
-        elif (columnName=="Frequency"):
-            select=sql.select([table_medicalHistory]).where(table_patients.columns.Frequency==searchQuery)
-
-    selectResult = connection.execute(select)
-    print(selectResult.fetchall())
-    return
-
+'''
 # End of Saj code.
     
 
