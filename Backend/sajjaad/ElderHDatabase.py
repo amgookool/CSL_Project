@@ -108,25 +108,8 @@ def insert_record(table_name, patient_record):
 
 # By Sajjaad Ramdath:
 # Start of Saj code.
-def searchPatients(patientid='',firstname='',lastname='',dateofbirth='',gender='',maritalstatus='',nextkin=''):
-    engine=sql.create_engine('sqlite:///Backend/elder_database.db')
-    connection=engine.connect()
-    metadata=sql.MetaData()
-    users=sql.Table('Patient_table', metadata, autoload=True, autoload_with=engine)
-    select=sql.select([table_patients]).where(sql.or_(
-        table_patients.columns.PatientID==patientid,
-        table_patients.columns.First_Name==firstname,
-        table_patients.columns.Last_Name==lastname,
-        table_patients.columns.Date_of_Birth==dateofbirth,
-        table_patients.columns.Gender==gender,
-        table_patients.columns.Marital_Status==maritalstatus,
-        table_patients.columns.NextKin==nextkin,
-        ))
-    result_proxy = connection.execute(select)
-    result_set=result_proxy.fetchall()
-    print(result_set)
-    return
-'''
+
+#works
 def searchPatients(patientid='',firstname='',lastname='',dateofbirth='',gender='',maritalstatus='',nextkin=''):
     engine=sql.create_engine('sqlite:///Backend/elder_database.db')
     connection=engine.connect()
@@ -146,25 +129,42 @@ def searchPatients(patientid='',firstname='',lastname='',dateofbirth='',gender='
     print(result_set)
     return
 
-def searchPatients(patientid='',firstname='',lastname='',dateofbirth='',gender='',maritalstatus='',nextkin=''):
+#need to test with test data
+def searchIdentification(idnumber='',patientid='',driverpermit='',nationalid='',passportnumber=''):
     engine=sql.create_engine('sqlite:///Backend/elder_database.db')
     connection=engine.connect()
     metadata=sql.MetaData()
-    users=sql.Table('Patient_table', metadata, autoload=True, autoload_with=engine)
-    select=sql.select([table_patients]).where(sql.or_(
-        table_patients.columns.PatientID==patientid,
-        table_patients.columns.First_Name==firstname,
-        table_patients.columns.Last_Name==lastname,
-        table_patients.columns.Date_of_Birth==dateofbirth,
-        table_patients.columns.Gender==gender,
-        table_patients.columns.Marital_Status==maritalstatus,
-        table_patients.columns.NextKin==nextkin,
+    users=sql.Table('Identifications_Table', metadata, autoload=True, autoload_with=engine)
+    select=sql.select([table_identification]).where(sql.or_(
+        table_identification.columns.ID_Number==idnumber,
+        table_identification.columns.Patient_ID==patientid,
+        table_identification.columns.Driver_Permit==driverpermit,
+        table_identification.columns.National_ID==nationalid,
+        table_identification.columns.Passport_Number==passportnumber,
         ))
     result_proxy = connection.execute(select)
     result_set=result_proxy.fetchall()
     print(result_set)
     return
-'''
+
+#not working -> getting PatientID attribute error
+def searchMedical(recordid='',patientid='',medicalhistory='',dosage='',frequency=''):
+    engine=sql.create_engine('sqlite:///Backend/elder_database.db')
+    connection=engine.connect()
+    metadata=sql.MetaData()
+    users=sql.Table('Medical_History_Table', metadata, autoload=True, autoload_with=engine)
+    select=sql.select([table_medicalHistory]).where(sql.or_(
+        table_medicalHistory.columns.Record_ID==recordid,
+        table_medicalHistory.columns.PatientID==patientid,
+        table_medicalHistory.columns.Medical_History==medicalhistory,
+        table_medicalHistory.columns.Dosage==dosage,
+        table_medicalHistory.columns.Frequency==frequency,
+        ))
+    result_proxy = connection.execute(select)
+    result_set=result_proxy.fetchall()
+    print(result_set)
+    return
+
 # End of Saj code.
     
 
