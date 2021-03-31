@@ -104,8 +104,6 @@ def insert_record(table_name, patient_record):
 
 
 # Defining a function that takes a query and returns information based on the query Read Functionality
-
-
 # By Sajjaad Ramdath:
 # Start of Saj code.
 
@@ -155,7 +153,7 @@ def searchMedical(recordid='',patientid='',medicalhistory='',dosage='',frequency
     users=sql.Table('Medical_History_Table', metadata, autoload=True, autoload_with=engine)
     select=sql.select([table_medicalHistory]).where(sql.or_(
         table_medicalHistory.columns.Record_ID==recordid,
-        table_medicalHistory.columns.PatientID==patientid,
+        #table_medicalHistory.columns.PatientID==patientid,  #problems here
         table_medicalHistory.columns.Medical_History==medicalhistory,
         table_medicalHistory.columns.Dosage==dosage,
         table_medicalHistory.columns.Frequency==frequency,

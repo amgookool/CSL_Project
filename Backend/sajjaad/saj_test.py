@@ -8,6 +8,6 @@ from ElderHDatabase import searchMedical
 
 print("=======================")
 #searchPatients('','','','','Male') #works
-searchIdentification()  #test with arguments now
+#searchIdentification()  #test with arguments now
 
-#searchMedical()      #problems
+searchMedical()      #problems
