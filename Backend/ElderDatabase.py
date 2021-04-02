@@ -2,6 +2,7 @@
 from itertools import zip_longest # this module allows us to zip lists of data as tuples to iterate over(helps in manipulating data)
 import sqlalchemy as sql  # importing sqlalchemy interpreter
 from sqlalchemy.sql.sqltypes import BigInteger, TEXT, Text
+from .extract import patient_data, med_history, arrival_info
 
 def patient_table_insert ():
     insert = Patient_Table.insert()
