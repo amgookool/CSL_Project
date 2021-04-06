@@ -1,0 +1,51 @@
+# Creating the Patient(Elder) Table object
+def Patient_Table(table_name, engine, metadata):
+    patients = sql.Table(
+        table_name, metadata,
+        sql.Column("PatientID", sql.Integer, primary_key=True),
+        sql.Column("First_Name", sql.TEXT, nullable=False),
+        sql.Column("Last_Name", sql.TEXT, nullable=False),
+        sql.Column("Date_of_Birth", sql.TEXT, nullable=False),
+        sql.Column("Gender", sql.Text, nullable=False),
+        sql.Column("Marital_Status", sql.Text, nullable=True),
+        sql.Column("NextKin", sql.TEXT, nullable=True),
+    )
+    metadata.create_all(engine)
+    return patients
+
+
+# Creating a new table object which consists of all the identification forms of a patient
+def Identification_Table(table_name, engine, metadata):
+    ids = sql.Table(
+        table_name,
+        metadata,
+        sql.Column("ID_Number", sql.Integer, primary_key=True),
+        sql.Column("Patient_ID", sql.ForeignKey(
+            "{}.PatientID".format(table_names[0])),),
+        sql.Column("Driver_Permit", sql.TEXT, nullable=True),
+        sql.Column("National_ID", sql.TEXT, nullable=True),
+        sql.Column("Passport_Number", sql.TEXT, nullable=True),
+    )
+    metadata.create_all(engine)
+    return ids
+
+
+# Creating a new table object which consists of the medical history of a patient and their medication dosage and frequency
+def Medical_history_Table(table_name, engine, metadata):
+    medHistory = sql.Table(
+        table_name,
+        metadata,
+        sql.Column("Record_ID", sql.Integer, primary_key=True),
+        sql.Column("Patient_ID", sql.ForeignKey(
+            "{}.PatientID".format(table_names[0])),),
+        sql.Column("Medical_History", sql.TEXT, nullable=False),
+        sql.Column("Dosage", sql.TEXT, nullable=False),
+        sql.Column("Frequency", sql.Integer, nullable=False),
+    )
+    metadata.create_all(engine)
+    return medHistory
+
+
+table_patients = Patient_Table(table_names[0], engine, metadata)
+table_identification = Identification_Table(table_names[1], engine, metadata)
+table_medicalHistory = Medical_history_Table(table_names[2], engine, metadata)
