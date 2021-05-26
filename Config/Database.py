@@ -4,12 +4,12 @@ import sqlalchemy as sql
 from sqlalchemy.sql.schema import ForeignKeyConstraint  # importing sqlalchemy interpreter
 from sqlalchemy.sql.sqltypes import BigInteger, Date, Integer, String, TEXT, Text
 from openpyxl import load_workbook
-from datetime import datetime as dt
 
-file = 'Backend/Datasheet.xlsx'
 
-def get_data(file_name,sheet_name):
-  wb = load_workbook(file_name)
+
+def get_data(sheet_name):
+  file = 'Config/Datasheet.xlsx'
+  wb = load_workbook(file)
   sheet_name = wb[sheet_name]
   all_rows = list(sheet_name.rows)
   heading_data = []
@@ -112,15 +112,38 @@ def insert_Tarrival(arrival_info = type(dict),connection = type(sql.engine.base.
     result = connection.execute(insert)
     return result
 
-patient_data = get_data(file,"Sheet2")
-    
-med_history = get_data(file,"Sheet3")
+def general_insert(dict_list = type(list),Table = type(sql.Table), connection = type(sql.engine.base.Connection)):
+    if Table == Patient_Table:
+        for data in dict_list:
+            insert_Tpatient(data,connection)
+    elif Table == Medhistory_Table:
+        for data in dict_list:
+            insert_TMedhistory(data,connection)
+    elif Table == Home_Arrival_Table:
+        for data in dict_list:
+            insert_Tarrival(data,connection)
 
-arrival_info = get_data(file,"Sheet4")
+def database_delete(id_number = type(int)):
+  statement = Patient_Table.delete().\
+    where(Patient_Table.c.Patient_ID == id_number)
+  connection.execute(statement)
+  statement = Medhistory_Table.delete().\
+    where(Medhistory_Table.c.Elder_ID == id_number)
+  connection.execute(statement)
+  statement = Home_Arrival_Table.delete().\
+    where(Home_Arrival_Table.c.Elder_ID == id_number)
+  connection.execute(statement)
+
+
+patient_data = get_data("Sheet2")
+
+med_history = get_data("Sheet3")
+
+arrival_info = get_data("Sheet4")
 
 # Setup of the database .db file and creating the necessary tools to interact with database base with python SQLAlchemy
-engine = sql.create_engine("sqlite:///Backend/elder_database.db", echo=False)  # Creating the engine that holds the connection to the database
-
+#engine = sql.create_engine("sqlite:///Config/elder_database.db", echo=False)  # Creating the engine that holds the connection to the database
+engine = sql.create_engine("sqlite:///Config/elder_database.db", echo=False)
 connection = engine.connect()  # Creating the connection to the database in the engine
 
 metadata = sql.MetaData() # metadata holds all the data to send/retreive to/from the database
@@ -206,94 +229,21 @@ Home_Arrival_Table = sql.Table( #Creation of home_arrival table
 
 metadata.create_all(engine) 
 
-def general_insert(dict_list = type(list),Table = type(sql.Table), connection = type(sql.engine.base.Connection)):
-    if Table == Patient_Table:
-        for data in dict_list:
-            insert_Tpatient(data,connection)
-    elif Table == Medhistory_Table:
-        for data in dict_list:
-            insert_TMedhistory(data,connection)
-    elif Table == Home_Arrival_Table:
-        for data in dict_list:
-            insert_Tarrival(data,connection)
 
-#general_insert(patient_data,Patient_Table,connection)
+general_insert(patient_data,Patient_Table,connection)
 
-#general_insert(med_history,Medhistory_Table,connection)
+general_insert(med_history,Medhistory_Table,connection)
 
-#general_insert(arrival_info,Home_Arrival_Table,connection)
-# patient_keys = patient_data[0].keys()
-# medical_history_keys = medical_history[0].keys()
-# home_arrival_keys = home_arrival[0].keys()
- 
-# num = 0
-# for heading in patient_keys:
-#     print("heading {} : {}".format(num, heading))
-#     num = num + 1
+general_insert(arrival_info,Home_Arrival_Table,connection)
 
-# Defining a function that takes a query and returns information based on the query Read Functionality
-# By Sajjaad Ramdath:
-# Start of Saj code.
 
-#works
-def searchPatients(patientid='',firstname='',lastname='',dateofbirth='',gender='',maritalstatus='',nextkin=''):
-    engine=sql.create_engine('sqlite:///Backend/elder_database.db')
-    connection=engine.connect()
-    metadata=sql.MetaData()
-    users=sql.Table('Patient_table', metadata, autoload=True, autoload_with=engine)
-    select=sql.select([table_patients]).where(sql.or_(
-        table_patients.columns.PatientID==patientid,
-        table_patients.columns.First_Name==firstname,
-        table_patients.columns.Last_Name==lastname,
-        table_patients.columns.Date_of_Birth==dateofbirth,
-        table_patients.columns.Gender==gender,
-        table_patients.columns.Marital_Status==maritalstatus,
-        table_patients.columns.NextKin==nextkin,
-        ))
-    result_proxy = connection.execute(select)
-    result_set=result_proxy.fetchall()
-    print(result_set)
-    return
+patient_keys = list(patient_data[0].keys())
 
-#need to test with test data
-def searchIdentification(idnumber='',patientid='',driverpermit='',nationalid='',passportnumber=''):
-    engine=sql.create_engine('sqlite:///Backend/elder_database.db')
-    connection=engine.connect()
-    metadata=sql.MetaData()
-    users=sql.Table('Identifications_Table', metadata, autoload=True, autoload_with=engine)
-    select=sql.select([table_identification]).where(sql.or_(
-        table_identification.columns.ID_Number==idnumber,
-        table_identification.columns.Patient_ID==patientid,
-        table_identification.columns.Driver_Permit==driverpermit,
-        table_identification.columns.National_ID==nationalid,
-        table_identification.columns.Passport_Number==passportnumber,
-        ))
-    result_proxy = connection.execute(select)
-    result_set=result_proxy.fetchall()
-    print(result_set)
-    return
+medical_history_keys = list(med_history[0].keys())
 
-#not working -> getting PatientID attribute error
-def searchMedical(recordid='',patientid='',medicalhistory='',dosage='',frequency=''):
-    engine=sql.create_engine('sqlite:///Backend/elder_database.db')
-    connection=engine.connect()
-    metadata=sql.MetaData()
-    users=sql.Table('Medical_History_Table', metadata, autoload=True, autoload_with=engine)
-    select=sql.select([table_medicalHistory]).where(sql.or_(
-        table_medicalHistory.columns.Record_ID==recordid,
-        #table_medicalHistory.columns.PatientID==patientid,  #problems here
-        table_medicalHistory.columns.Medical_History==medicalhistory,
-        table_medicalHistory.columns.Dosage==dosage,
-        table_medicalHistory.columns.Frequency==frequency,
-        ))
-    result_proxy = connection.execute(select)
-    result_set=result_proxy.fetchall()
-    print(result_set)
-    return
+home_arrival_keys = list(arrival_info[0].keys())
 
-# End of Saj code.
+medical_history_keys.pop(1)
 
-# Defining a function that allows us to update a record field in the datbase using a query
-
-# Defining a function that allows us to deleting a record in the datbase using a query
+home_arrival_keys.pop(1)
 
